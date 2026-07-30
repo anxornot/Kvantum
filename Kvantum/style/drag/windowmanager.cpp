@@ -1,5 +1,5 @@
 /*
- * Copyright (C) Pedram Pourang (aka Tsu Jan) 2024 <tsujan2000@gmail.com>
+ * Copyright (C) Pedram Pourang (aka Tsu Jan) 2024-2026 <tsujan2000@gmail.com>
  *
  * Kvantum is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
@@ -281,6 +281,8 @@ void WindowManager::timerEvent (QTimerEvent *event)
 bool WindowManager::mousePressEvent (QObject *object, QEvent *event)
 {
   QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+  if (mouseEvent->source() != Qt::MouseEventNotSynthesized)
+    return false; // not a genuine mouse event
   if (!(mouseEvent->modifiers() == Qt::NoModifier && mouseEvent->button() == Qt::LeftButton))
     return false;
 
@@ -475,6 +477,8 @@ bool WindowManager::mouseMoveEvent (QEvent *event)
   if (!dragInProgress_)
   {
     QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+    if (mouseEvent->source() != Qt::MouseEventNotSynthesized)
+      return false; // not a genuine mouse event
     if (dragAboutToStart_)
     {
       dragAboutToStart_ = false;

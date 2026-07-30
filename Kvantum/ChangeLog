@@ -1,3 +1,7 @@
+V1.1.9
+---------
+ * Check genuine mouse events before window dragging.
+
 V1.1.8
 ---------
  * Covered a rare edge case of finding the parent menubar of a menu.
