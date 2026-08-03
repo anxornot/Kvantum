@@ -1,6 +1,7 @@
 V1.1.9
 ---------
  * Check genuine mouse events before window dragging.
+ * Workaround for a Qt bug that may report a highlighted action in a menu while there is none.
 
 V1.1.8
 ---------

@@ -982,8 +982,13 @@ bool Style::eventFilter(QObject *o, QEvent *e)
         /* "magical" condition for a submenu */
         QPoint parentMenuCorner;
         QMenu *parentMenu = qobject_cast<QMenu*>(QApplication::activePopupWidget());
-        /* this is a workaround for KDE global menu */
-        if (parentMenu && parentMenu->activeAction() == nullptr) parentMenu = nullptr;
+        /* this is a workaround for KDE global menu and also
+           for a Qt bug which may report an active action while there is none */
+        if (parentMenu && (parentMenu->activeAction() == nullptr
+                           || parentMenu->activeAction()->menu() != menu))
+        {
+          parentMenu = nullptr;
+        }
         if (parentMenu == nullptr)
         { // search for a detached menu with an active action
           const QWidgetList topLevels = QApplication::topLevelWidgets();
@@ -993,7 +998,8 @@ bool Style::eventFilter(QObject *o, QEvent *e)
             if (auto topMenu = qobject_cast<QMenu*>(topWidget))
             {
               if (topWidget->testAttribute(Qt::WA_X11NetWmWindowTypeMenu)
-                  && topMenu->activeAction())
+                  && topMenu->activeAction()
+                  && topMenu->activeAction()->menu() == menu)
               {
                 parentMenu = topMenu;
                 parentMenuCorner = parentMenu->mapToGlobal(QPoint(0,0));
