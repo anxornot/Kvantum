@@ -1169,7 +1169,9 @@ bool Style::eventFilter(QObject *o, QEvent *e)
               else
               {
 #if (QT_VERSION >= QT_VERSION_CHECK(6,11,0))
+#if (QT_VERSION < QT_VERSION_CHECK(6,11,2))
                 isWaylandMenu = true;
+#endif
 #endif
                 QRect pg;
                 if (QWidget *p = w->parentWidget())
@@ -1272,7 +1274,9 @@ bool Style::eventFilter(QObject *o, QEvent *e)
               else // the global position is unknown under Wayland
               {
 #if (QT_VERSION >= QT_VERSION_CHECK(6,11,0))
+#if (QT_VERSION < QT_VERSION_CHECK(6,11,2))
                 isWaylandMenu = true;
+#endif
 #endif
                 /* snap to the parent window's top/left side if needed and,
                    as the last resort, consider the cursor position */
